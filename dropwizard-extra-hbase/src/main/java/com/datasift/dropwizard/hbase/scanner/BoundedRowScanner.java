@@ -3,6 +3,7 @@ package com.datasift.dropwizard.hbase.scanner;
 import com.datasift.dropwizard.hbase.BoundedHBaseClient;
 import com.datasift.dropwizard.hbase.util.PermitReleasingCallback;
 import com.stumbleupon.async.Deferred;
+import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 
 import java.nio.charset.Charset;
@@ -152,6 +153,48 @@ public class BoundedRowScanner implements RowScanner {
      */
     public RowScanner setKeyRegexp(final String regexp, Charset charset) {
         scanner.setKeyRegexp(regexp, charset);
+        return this;
+    }
+
+    public RowScanner setFilterList(byte[]... filters) {
+        System.out.println("BoundedRowScanner : " + Bytes.pretty(filters[0]));
+        scanner.setFilterList(filters);
+        return this;
+    }
+
+    public byte[] getPrefix(final byte[] prefix) {
+        return scanner.getPrefix(prefix);
+    }
+
+    public byte[] getPrefix(final String prefix) {
+        return getPrefix(prefix.getBytes());
+    }
+
+    @Override
+    public byte[] getColumnPrefix(String prefix) {
+        return getColumnPrefix(prefix.getBytes());
+    }
+
+    @Override
+    public byte[] getColumnPrefix(byte[] prefix) {
+        return scanner.getColumnPrefix(prefix);
+    }
+
+    public RowScanner setPrefix(final String prefix) {
+        return setPrefix(prefix.getBytes());
+    }
+
+    public RowScanner setPrefix(final byte[] prefix) {
+        scanner.setPrefix(prefix);
+        return this;
+    }
+
+    public RowScanner setColumnPrefix(final String prefix) {
+        return setColumnPrefix(prefix.getBytes());
+    }
+
+    public RowScanner setColumnPrefix(final byte[] prefix) {
+        scanner.setColumnPrefix(prefix);
         return this;
     }
 

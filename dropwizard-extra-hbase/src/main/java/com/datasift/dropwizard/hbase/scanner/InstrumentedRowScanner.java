@@ -6,6 +6,7 @@ import com.datasift.dropwizard.hbase.util.TimerStoppingCallback;
 import com.stumbleupon.async.Deferred;
 import com.yammer.metrics.core.Metric;
 import com.yammer.metrics.core.TimerContext;
+import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 
 import java.nio.charset.Charset;
@@ -155,6 +156,48 @@ public class InstrumentedRowScanner implements RowScanner {
      */
     public RowScanner setKeyRegexp(final String regexp, final Charset charset) {
         scanner.setKeyRegexp(regexp, charset);
+        return this;
+    }
+
+    public RowScanner setFilterList(byte[]... filters) {
+        System.out.println("InstrumentedRowScanner : " + Bytes.pretty(filters[0]));
+        scanner.setFilterList(filters);
+        return this;
+    }
+
+    public byte[] getPrefix(final String prefix) {
+        return getPrefix(prefix.getBytes());
+    }
+
+    public byte[] getPrefix(final byte[] prefix) {
+        return scanner.getPrefix(prefix);
+    }
+
+    @Override
+    public byte[] getColumnPrefix(String prefix) {
+        return getColumnPrefix(prefix.getBytes());
+    }
+
+    @Override
+    public byte[] getColumnPrefix(byte[] prefix) {
+        return scanner.getColumnPrefix(prefix);
+    }
+
+    public RowScanner setPrefix(final String prefix) {
+        return setPrefix(prefix.getBytes());
+    }
+
+    public RowScanner setPrefix(final byte[] prefix) {
+        scanner.setPrefix(prefix);
+        return this;
+    }
+
+    public RowScanner setColumnPrefix(final String prefix) {
+        return setColumnPrefix(prefix.getBytes());
+    }
+
+    public RowScanner setColumnPrefix(final byte[] prefix) {
+        scanner.setColumnPrefix(prefix);
         return this;
     }
 

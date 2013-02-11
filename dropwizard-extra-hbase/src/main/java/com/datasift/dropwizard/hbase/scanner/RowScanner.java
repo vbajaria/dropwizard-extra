@@ -109,6 +109,78 @@ public interface RowScanner {
     public RowScanner setKeyRegexp(String regexp, Charset charset);
 
     /**
+     * Sets a prefix to filter keys being scanned.
+     * @see org.hbase.async.Scanner#setPrefix(byte[])
+     * @param prefix a string to filter keys with (gets converted to a byte array)
+     * @return this {@link RowScanner} to facilitate method chaining
+     */
+    public RowScanner setPrefix(final String prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned.
+     * @see org.hbase.async.Scanner#setPrefix(byte[])
+     * @param prefix a binary representation of the string to filter keys with
+     * @return this {@link RowScanner} to faciliate method chaining
+     */
+    public RowScanner setPrefix(final byte[] prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned based on their column qualifier.
+     * @see org.hbase.async.Scanner#setColumnPrefix(byte[])
+     * @param prefix a string to filter column qualifier with.
+     * @return this {@link RowScanner} to faciliate method chaining
+     */
+    public RowScanner setColumnPrefix(final String prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned based on their column qualifier.
+     * @see org.hbase.async.Scanner#setColumnPrefix(byte[])
+     * @param prefix a binary representation of the string to filter column qualifier with.
+     * @return this {@link RowScanner} to faciliate method chaining
+     */
+    public RowScanner setColumnPrefix(final byte[] prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned.
+     * @see org.hbase.async.Scanner#getPrefix(byte[])
+     * @param prefix a string to filter row key.
+     * @return binary representation of the Filter
+     */
+    public byte[] getPrefix(final byte[] prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned.
+     * @see org.hbase.async.Scanner#getPrefix(byte[])
+     * @param prefix a string to filter row key.
+     * @return binary representation of the Filter
+     */
+    public byte[] getPrefix(final String prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned based on their column qualifier.
+     * @see org.hbase.async.Scanner#getColumnPrefix(byte[])
+     * @param prefix a string to filter column qualifier.
+     * @return binary representation of the Filter
+     */
+    public byte[] getColumnPrefix(final String prefix);
+
+    /**
+     * Sets a prefix to filter keys being scanned based on their column qualifier.
+     * @see org.hbase.async.Scanner#getColumnPrefix(byte[])
+     * @param prefix a string to filter column qualifier.
+     * @return binary representation of the Filter
+     */
+    public byte[] getColumnPrefix(final byte[] prefix);
+
+    /**
+     * Sets a FilterList to be used when scanning rows with the passed filters.
+     * @see org.hbase.async.Scanner#setFilterList(byte[]...)
+     * @param filters a list of filters to be applied to this FilterList.
+     * @return this {@link RowScanner} to faciliate method chaining
+     */
+    public RowScanner setFilterList(final byte[]... filters);
+
+    /**
      * Set whether to use the server-side block cache during the scan.
      *
      * @see org.hbase.async.Scanner#setServerBlockCache(boolean)
