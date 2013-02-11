@@ -24,9 +24,12 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <!-- if this dependency does not exist then pull from my repo https://github.com/vbajaria/asynchbase.git -->
+      <!-- there is pending pull request for upstream asynchbase, once it is done there is no need to do that -->
+      <!-- TODO (vbajaria): push binary to a public repository or github -->
       <groupId>org.hbase</groupId>
       <artifactId>asynchbase</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.1</version>
     </dependency>
   </dependencies>
 
