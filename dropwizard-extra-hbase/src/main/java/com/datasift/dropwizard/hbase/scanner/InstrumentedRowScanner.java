@@ -3,6 +3,7 @@ package com.datasift.dropwizard.hbase.scanner;
 import com.datasift.dropwizard.hbase.InstrumentedHBaseClient;
 import com.datasift.dropwizard.hbase.metrics.HBaseInstrumentation;
 import com.datasift.dropwizard.hbase.util.TimerStoppingCallback;
+import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import com.yammer.metrics.core.Metric;
 import com.yammer.metrics.core.TimerContext;
@@ -159,8 +160,45 @@ public class InstrumentedRowScanner implements RowScanner {
         return this;
     }
 
+    public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
+        scanner.setKeyRegexp(regexp, charset);
+        return this;
+    }
+
+    public RowScanner setKeyRegexp(byte[] regexp) {
+        return this.setKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
+        return scanner.getKeyRegexp(regexp, charset);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp) {
+        return this.getKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(String regexp, Charset charset) {
+        return this.getKeyRegexp(Bytes.UTF8(regexp), Charsets.ISO_8859_1);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.setColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        scanner.setColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+        return this;
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.getColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        return scanner.getColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+    }
+
     public RowScanner setFilterList(byte[]... filters) {
-        System.out.println("InstrumentedRowScanner : " + Bytes.pretty(filters[0]));
         scanner.setFilterList(filters);
         return this;
     }
@@ -173,12 +211,10 @@ public class InstrumentedRowScanner implements RowScanner {
         return scanner.getPrefix(prefix);
     }
 
-    @Override
     public byte[] getColumnPrefix(String prefix) {
         return getColumnPrefix(prefix.getBytes());
     }
 
-    @Override
     public byte[] getColumnPrefix(byte[] prefix) {
         return scanner.getColumnPrefix(prefix);
     }

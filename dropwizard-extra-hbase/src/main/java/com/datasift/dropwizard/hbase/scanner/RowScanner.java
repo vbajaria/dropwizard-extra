@@ -108,6 +108,21 @@ public interface RowScanner {
      */
     public RowScanner setKeyRegexp(String regexp, Charset charset);
 
+    public RowScanner setKeyRegexp(final byte[] regexp);
+    public RowScanner setKeyRegexp(final byte[] regexp, Charset charset);
+
+    public byte[] getKeyRegexp(final byte[] regexp, Charset charset);
+    public byte[] getKeyRegexp(final byte[] regexp);
+    public byte[] getKeyRegexp(final String regexp, Charset charset);
+
+    public RowScanner setColumnRange(final byte[] minColumn, final byte[] maxColumn);
+    public RowScanner setColumnRange(final byte[] minColumn, final boolean minColumnInclusive
+                                        , final byte[] maxColumn, final boolean maxColumnInclusive);
+
+    public byte[] getColumnRange(final byte[] minColumn, final byte[] maxColumn);
+    public byte[] getColumnRange(final byte[] minColumn, final boolean minColumnInclusive
+                                        , final byte[] maxColumn, final boolean maxColumnInclusive);
+
     /**
      * Sets a prefix to filter keys being scanned.
      * @see org.hbase.async.Scanner#setPrefix(byte[])

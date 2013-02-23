@@ -1,5 +1,6 @@
 package com.datasift.dropwizard.hbase.scanner;
 
+import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
@@ -149,8 +150,45 @@ public class RowScannerProxy implements RowScanner {
         return this;
     }
 
+    public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
+        scanner.setKeyRegexp(regexp, charset);
+        return this;
+    }
+
+    public RowScanner setKeyRegexp(byte[] regexp) {
+        return this.setKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
+        return scanner.getKeyRegexp(regexp, charset);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp) {
+        return this.getKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(String regexp, Charset charset) {
+        return this.getKeyRegexp(Bytes.UTF8(regexp), Charsets.ISO_8859_1);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.setColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        scanner.setColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+        return this;
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.getColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        return scanner.getColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+    }
+
     public RowScanner setFilterList(final byte[]... filters) {
-        System.out.println("RowScannerProxy : " + Bytes.pretty(filters[0]));
         scanner.setFilterList(filters);
         return this;
     }

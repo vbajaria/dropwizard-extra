@@ -2,6 +2,7 @@ package com.datasift.dropwizard.hbase.scanner;
 
 import com.datasift.dropwizard.hbase.BoundedHBaseClient;
 import com.datasift.dropwizard.hbase.util.PermitReleasingCallback;
+import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
@@ -156,8 +157,45 @@ public class BoundedRowScanner implements RowScanner {
         return this;
     }
 
+    public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
+        scanner.setKeyRegexp(regexp, charset);
+        return this;
+    }
+
+    public RowScanner setKeyRegexp(byte[] regexp) {
+        return setKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
+        return scanner.getKeyRegexp(regexp, charset);
+    }
+
+    public byte[] getKeyRegexp(byte[] regexp) {
+        return this.getKeyRegexp(regexp, Charsets.ISO_8859_1);
+    }
+
+    public byte[] getKeyRegexp(String regexp, Charset charset) {
+        return this.getKeyRegexp(Bytes.UTF8(regexp), Charsets.ISO_8859_1);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.setColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public RowScanner setColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        scanner.setColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+        return this;
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, byte[] maxColumn) {
+        return this.getColumnRange(minColumn, true, maxColumn, true);
+    }
+
+    public byte[] getColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
+        return scanner.getColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
+    }
+
     public RowScanner setFilterList(byte[]... filters) {
-        System.out.println("BoundedRowScanner : " + Bytes.pretty(filters[0]));
         scanner.setFilterList(filters);
         return this;
     }
@@ -170,12 +208,10 @@ public class BoundedRowScanner implements RowScanner {
         return getPrefix(prefix.getBytes());
     }
 
-    @Override
     public byte[] getColumnPrefix(String prefix) {
         return getColumnPrefix(prefix.getBytes());
     }
 
-    @Override
     public byte[] getColumnPrefix(byte[] prefix) {
         return scanner.getColumnPrefix(prefix);
     }
