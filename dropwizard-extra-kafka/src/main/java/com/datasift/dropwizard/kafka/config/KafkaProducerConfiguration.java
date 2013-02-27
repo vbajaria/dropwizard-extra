@@ -85,6 +85,9 @@ public class KafkaProducerConfiguration extends KafkaClientConfiguration {
     @JsonProperty
     protected KafkaAsyncProducerConfiguration async = null;
 
+    @JsonProperty
+    protected String serializerClass = "kafka.serializer.DefaultEncoder";
+
     /**
      * @see KafkaProducerConfiguration#sendBufferSize
      */
@@ -154,5 +157,9 @@ public class KafkaProducerConfiguration extends KafkaClientConfiguration {
      */
     public boolean isAsync() {
         return async != null;
+    }
+
+    public String getSerializerClass() {
+        return serializerClass;
     }
 }

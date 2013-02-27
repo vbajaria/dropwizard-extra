@@ -6,6 +6,7 @@ import com.datasift.dropwizard.zookeeper.config.ZooKeeperConfiguration;
 import com.yammer.dropwizard.config.Environment;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.ProducerConfig;
+import kafka.producer.async.AsyncProducerConfig;
 
 import java.util.Properties;
 
@@ -18,6 +19,8 @@ public class KafkaProducerFactory<K,V> {
     }
 
     public AsyncProducer<K, V> build(KafkaProducerConfiguration configuration) {
+        ProducerConfig config = toProducerConfig(configuration);
+        System.out.println("Producer Type : " + config.producerType());
         Producer<K, V> producer = new Producer<K, V>(toProducerConfig(configuration));
         AsyncProducer<K, V> asyncProducer = new AsyncProducer<K, V>(producer);
         return asyncProducer;
@@ -47,12 +50,18 @@ public class KafkaProducerFactory<K,V> {
                 String.valueOf(configuration.getCompressedTopics()));
         props.setProperty("zk.read.num.retries",
                 String.valueOf(configuration.getPartitionMissRetries()));
-        props.setProperty("queue.time",
-                String.valueOf(configuration.getAsync().getQueueTime().toMilliseconds()));
-        props.setProperty("queue.size",
-                String.valueOf(configuration.getAsync().getQueueSize()));
-        props.setProperty("batch.size",
-                String.valueOf(configuration.getAsync().getBatchSize()));
+        if (configuration.isAsync()) {
+            System.out.println("setting producer type to async");
+            props.setProperty("producer.type", "async");
+            props.setProperty("queue.time",
+                    String.valueOf(configuration.getAsync().getQueueTime().toMilliseconds()));
+            props.setProperty("queue.size",
+                    String.valueOf(configuration.getAsync().getQueueSize()));
+            props.setProperty("batch.size",
+                    String.valueOf(configuration.getAsync().getBatchSize()));
+        }
+        props.setProperty("serializer.class",
+                configuration.getSerializerClass());
 
         return new ProducerConfig(props);
     }
