@@ -6,9 +6,11 @@ import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -145,6 +147,16 @@ public class BoundedRowScanner implements RowScanner {
         return this;
     }
 
+    public RowScanner setFilters(final ScanFilter... scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
+    public RowScanner setFilters(final List<ScanFilter> scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
     /**
      * Set a regular expression to filter keys being scanned.
      *
@@ -174,7 +186,7 @@ public class BoundedRowScanner implements RowScanner {
         return this;
     }
 
-    public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
+    /*public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
         scanner.setKeyRegexp(regexp, charset);
         return this;
     }
@@ -249,7 +261,7 @@ public class BoundedRowScanner implements RowScanner {
     public RowScanner setColumnPrefix(final byte[] prefix) {
         scanner.setColumnPrefix(prefix);
         return this;
-    }
+    }*/
 
     /**
      * Set whether to use the server-side block cache during the scan.

@@ -9,9 +9,11 @@ import com.yammer.metrics.core.Metric;
 import com.yammer.metrics.core.TimerContext;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link RowScanner} that is instrumented with {@link Metric}s.
@@ -148,6 +150,30 @@ public class InstrumentedRowScanner implements RowScanner {
     }
 
     /**
+     * Set one or more filters for the scanner.
+     * When doing multiple filters, use FilterList to group them up or
+     * the method call throws an IllegalArgumentException.
+     * @param scanFilters one or more filters for the scanner
+     * @return this {@link RowScanner} to facilitate method chaining
+     */
+    public RowScanner setFilters(final ScanFilter... scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
+    /**
+     * Set one or more filters for the scanner.
+     * When doing multiple filters, use FilterList to group them up or
+     * the method call throws an IllegalArgumentException.
+     * @param scanFilters one or more filters for the scanner
+     * @return this {@link RowScanner} to facilitate method chaining
+     */
+    public RowScanner setFilters(final List<ScanFilter> scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
+    /**
      * Set a regular expression to filter keys being scanned.
      *
      * @param regexp a regular expression to filter keys with
@@ -173,83 +199,6 @@ public class InstrumentedRowScanner implements RowScanner {
      */
     public RowScanner setKeyRegexp(final String regexp, final Charset charset) {
         scanner.setKeyRegexp(regexp, charset);
-        return this;
-    }
-
-    public RowScanner setKeyRegexp(byte[] regexp, Charset charset) {
-        scanner.setKeyRegexp(regexp, charset);
-        return this;
-    }
-
-    public RowScanner setKeyRegexp(byte[] regexp) {
-        return this.setKeyRegexp(regexp, Charsets.ISO_8859_1);
-    }
-
-    public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
-        return scanner.getKeyRegexp(regexp, charset);
-    }
-
-    public byte[] getKeyRegexp(byte[] regexp) {
-        return this.getKeyRegexp(regexp, Charsets.ISO_8859_1);
-    }
-
-    public byte[] getKeyRegexp(String regexp, Charset charset) {
-        return this.getKeyRegexp(Bytes.UTF8(regexp), Charsets.ISO_8859_1);
-    }
-
-    public RowScanner setColumnRange(byte[] minColumn, byte[] maxColumn) {
-        return this.setColumnRange(minColumn, true, maxColumn, true);
-    }
-
-    public RowScanner setColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
-        scanner.setColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
-        return this;
-    }
-
-    public byte[] getColumnRange(byte[] minColumn, byte[] maxColumn) {
-        return this.getColumnRange(minColumn, true, maxColumn, true);
-    }
-
-    public byte[] getColumnRange(byte[] minColumn, boolean minColumnInclusive, byte[] maxColumn, boolean maxColumnInclusive) {
-        return scanner.getColumnRange(minColumn, minColumnInclusive, maxColumn, maxColumnInclusive);
-    }
-
-    public RowScanner setFilterList(byte[]... filters) {
-        scanner.setFilterList(filters);
-        return this;
-    }
-
-    public byte[] getPrefix(final String prefix) {
-        return getPrefix(prefix.getBytes());
-    }
-
-    public byte[] getPrefix(final byte[] prefix) {
-        return scanner.getPrefix(prefix);
-    }
-
-    public byte[] getColumnPrefix(String prefix) {
-        return getColumnPrefix(prefix.getBytes());
-    }
-
-    public byte[] getColumnPrefix(byte[] prefix) {
-        return scanner.getColumnPrefix(prefix);
-    }
-
-    public RowScanner setPrefix(final String prefix) {
-        return setPrefix(prefix.getBytes());
-    }
-
-    public RowScanner setPrefix(final byte[] prefix) {
-        scanner.setPrefix(prefix);
-        return this;
-    }
-
-    public RowScanner setColumnPrefix(final String prefix) {
-        return setColumnPrefix(prefix.getBytes());
-    }
-
-    public RowScanner setColumnPrefix(final byte[] prefix) {
-        scanner.setColumnPrefix(prefix);
         return this;
     }
 

@@ -4,10 +4,12 @@ import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Client for scanning over a selection of rows.
@@ -142,6 +144,16 @@ public class RowScannerProxy implements RowScanner {
         return this;
     }
 
+    public RowScanner setFilters(final ScanFilter... scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
+    public RowScanner setFilters(final List<ScanFilter> scanFilters) {
+        scanner.setFilters(scanFilters);
+        return this;
+    }
+
     /**
      * Set a regular expression to filter keys being scanned.
      *
@@ -180,7 +192,7 @@ public class RowScannerProxy implements RowScanner {
         return this.setKeyRegexp(regexp, Charsets.ISO_8859_1);
     }
 
-    public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
+    /*public byte[] getKeyRegexp(byte[] regexp, Charset charset) {
         return scanner.getKeyRegexp(regexp, charset);
     }
 
@@ -248,7 +260,7 @@ public class RowScannerProxy implements RowScanner {
     public RowScanner setColumnPrefix(final byte[] prefix) {
         scanner.setColumnPrefix(prefix);
         return this;
-    }
+    }*/
 
     /**
      * Set whether to use the server-side block cache during the scan.

@@ -2,9 +2,11 @@ package com.datasift.dropwizard.hbase.scanner;
 
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Client for scanning over a selection of rows.
@@ -105,6 +107,10 @@ public interface RowScanner {
      */
     public RowScanner setQualifier(String qualifier);
 
+    public RowScanner setFilters(final ScanFilter... scanFilters);
+
+    public RowScanner setFilters(final List<ScanFilter> scanFilters);
+
     /**
      * Set a regular expression to filter keys being scanned.
      *
@@ -128,7 +134,7 @@ public interface RowScanner {
      */
     public RowScanner setKeyRegexp(String regexp, Charset charset);
 
-    public RowScanner setKeyRegexp(final byte[] regexp);
+    /*public RowScanner setKeyRegexp(final byte[] regexp);
     public RowScanner setKeyRegexp(final byte[] regexp, Charset charset);
 
     public byte[] getKeyRegexp(final byte[] regexp, Charset charset);
@@ -141,7 +147,7 @@ public interface RowScanner {
 
     public byte[] getColumnRange(final byte[] minColumn, final byte[] maxColumn);
     public byte[] getColumnRange(final byte[] minColumn, final boolean minColumnInclusive
-                                        , final byte[] maxColumn, final boolean maxColumnInclusive);
+                                        , final byte[] maxColumn, final boolean maxColumnInclusive);*/
 
     /**
      * Sets a prefix to filter keys being scanned.
@@ -149,7 +155,7 @@ public interface RowScanner {
      * @param prefix a string to filter keys with (gets converted to a byte array)
      * @return this {@link RowScanner} to facilitate method chaining
      */
-    public RowScanner setPrefix(final String prefix);
+    //public RowScanner setPrefix(final String prefix);
 
     /**
      * Sets a prefix to filter keys being scanned.
@@ -157,7 +163,7 @@ public interface RowScanner {
      * @param prefix a binary representation of the string to filter keys with
      * @return this {@link RowScanner} to faciliate method chaining
      */
-    public RowScanner setPrefix(final byte[] prefix);
+    //public RowScanner setPrefix(final byte[] prefix);
 
     /**
      * Sets a prefix to filter keys being scanned based on their column qualifier.
@@ -165,7 +171,7 @@ public interface RowScanner {
      * @param prefix a string to filter column qualifier with.
      * @return this {@link RowScanner} to faciliate method chaining
      */
-    public RowScanner setColumnPrefix(final String prefix);
+    //public RowScanner setColumnPrefix(final String prefix);
 
     /**
      * Sets a prefix to filter keys being scanned based on their column qualifier.
@@ -173,7 +179,7 @@ public interface RowScanner {
      * @param prefix a binary representation of the string to filter column qualifier with.
      * @return this {@link RowScanner} to faciliate method chaining
      */
-    public RowScanner setColumnPrefix(final byte[] prefix);
+    //public RowScanner setColumnPrefix(final byte[] prefix);
 
     /**
      * Sets a prefix to filter keys being scanned.
@@ -181,7 +187,7 @@ public interface RowScanner {
      * @param prefix a string to filter row key.
      * @return binary representation of the Filter
      */
-    public byte[] getPrefix(final byte[] prefix);
+    //public byte[] getPrefix(final byte[] prefix);
 
     /**
      * Sets a prefix to filter keys being scanned.
@@ -189,7 +195,7 @@ public interface RowScanner {
      * @param prefix a string to filter row key.
      * @return binary representation of the Filter
      */
-    public byte[] getPrefix(final String prefix);
+    //public byte[] getPrefix(final String prefix);
 
     /**
      * Sets a prefix to filter keys being scanned based on their column qualifier.
@@ -197,7 +203,7 @@ public interface RowScanner {
      * @param prefix a string to filter column qualifier.
      * @return binary representation of the Filter
      */
-    public byte[] getColumnPrefix(final String prefix);
+    //public byte[] getColumnPrefix(final String prefix);
 
     /**
      * Sets a prefix to filter keys being scanned based on their column qualifier.
@@ -205,7 +211,7 @@ public interface RowScanner {
      * @param prefix a string to filter column qualifier.
      * @return binary representation of the Filter
      */
-    public byte[] getColumnPrefix(final byte[] prefix);
+    //public byte[] getColumnPrefix(final byte[] prefix);
 
     /**
      * Sets a FilterList to be used when scanning rows with the passed filters.
@@ -213,7 +219,7 @@ public interface RowScanner {
      * @param filters a list of filters to be applied to this FilterList.
      * @return this {@link RowScanner} to faciliate method chaining
      */
-    public RowScanner setFilterList(final byte[]... filters);
+    //public RowScanner setFilterList(final byte[]... filters);
 
     /**
      * Set whether to use the server-side block cache during the scan.
