@@ -35,7 +35,7 @@
       <!-- TODO (vbajaria): push binary to a public repository or github -->
       <groupId>org.hbase</groupId>
       <artifactId>asynchbase</artifactId>
-      <version>1.4.2</version>
+      <version>1.5.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
