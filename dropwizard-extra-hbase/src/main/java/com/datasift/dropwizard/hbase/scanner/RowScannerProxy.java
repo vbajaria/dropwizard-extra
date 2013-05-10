@@ -1,6 +1,7 @@
 package com.datasift.dropwizard.hbase.scanner;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 import com.stumbleupon.async.Deferred;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
@@ -10,6 +11,7 @@ import org.hbase.async.Scanner;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Client for scanning over a selection of rows.
@@ -378,6 +380,20 @@ public class RowScannerProxy implements RowScanner {
      */
     public byte[] getCurrentKey() {
         return scanner.getCurrentKey();
+    }
+
+    /**
+     *
+     * @param attributes
+     * @return
+     */
+    public RowScanner setAttributes(Map<String, String> attributes) {
+        Map<String, byte[]> attrs = Maps.newHashMap();
+        for (Map.Entry<String, String> entry: attributes.entrySet()) {
+            attrs.put(entry.getKey(), entry.getValue().getBytes());
+        }
+        scanner.setAttributes(attrs);
+        return this;
     }
 
     /**

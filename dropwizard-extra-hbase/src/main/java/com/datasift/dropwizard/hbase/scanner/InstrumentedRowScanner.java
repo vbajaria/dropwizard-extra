@@ -14,6 +14,7 @@ import org.hbase.async.ScanFilter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A {@link RowScanner} that is instrumented with {@link Metric}s.
@@ -318,6 +319,16 @@ public class InstrumentedRowScanner implements RowScanner {
      */
     public byte[] getCurrentKey() {
         return scanner.getCurrentKey();
+    }
+
+    /**
+     *
+     * @param attributes
+     * @return
+     */
+    public RowScanner setAttributes(Map<String, String> attributes) {
+        scanner.setAttributes(attributes);
+        return this;
     }
 
     /**

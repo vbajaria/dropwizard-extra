@@ -7,6 +7,7 @@ import org.hbase.async.ScanFilter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Client for scanning over a selection of rows.
@@ -312,6 +313,11 @@ public interface RowScanner {
      * @see org.hbase.async.Scanner#getCurrentKey()
      */
     public byte[] getCurrentKey();
+
+    /**
+     *
+     */
+    public RowScanner setAttributes(Map<String, String> attributes);
 
     /**
      * Closes this Scanner
