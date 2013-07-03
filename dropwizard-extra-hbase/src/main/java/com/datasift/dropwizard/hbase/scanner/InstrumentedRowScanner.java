@@ -3,11 +3,9 @@ package com.datasift.dropwizard.hbase.scanner;
 import com.datasift.dropwizard.hbase.InstrumentedHBaseClient;
 import com.datasift.dropwizard.hbase.metrics.HBaseInstrumentation;
 import com.datasift.dropwizard.hbase.util.TimerStoppingCallback;
-import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
 import com.yammer.metrics.core.Metric;
 import com.yammer.metrics.core.TimerContext;
-import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.hbase.async.ScanFilter;
 
@@ -328,6 +326,18 @@ public class InstrumentedRowScanner implements RowScanner {
      */
     public RowScanner setAttributes(Map<String, String> attributes) {
         scanner.setAttributes(attributes);
+        return this;
+    }
+
+    @Override
+    public RowScanner addAttribute(String key, String value) {
+        scanner.addAttribute(key, value);
+        return this;
+    }
+
+    @Override
+    public RowScanner addAttribute(String key, byte[] value) {
+        scanner.addAttribute(key, value);
         return this;
     }
 

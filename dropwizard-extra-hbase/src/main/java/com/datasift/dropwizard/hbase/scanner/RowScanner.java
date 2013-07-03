@@ -318,6 +318,8 @@ public interface RowScanner {
      *
      */
     public RowScanner setAttributes(Map<String, String> attributes);
+    public RowScanner addAttribute(String key, String value);
+    public RowScanner addAttribute(String key, byte[] value);
 
     /**
      * Closes this Scanner

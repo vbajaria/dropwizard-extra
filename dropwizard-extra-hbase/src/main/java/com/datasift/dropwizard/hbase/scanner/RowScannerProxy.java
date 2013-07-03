@@ -3,13 +3,13 @@ package com.datasift.dropwizard.hbase.scanner;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.stumbleupon.async.Deferred;
-import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -394,6 +394,23 @@ public class RowScannerProxy implements RowScanner {
         }
         scanner.setAttributes(attrs);
         return this;
+    }
+
+    public RowScanner addAttribute(String key, String value) {
+        addAttributeInternal(key, value.getBytes());
+        return this;
+    }
+
+    public RowScanner addAttribute(String key, byte[] value) {
+        addAttributeInternal(key, value);
+        return this;
+    }
+
+    private void addAttributeInternal(String key, byte[] value) {
+        if (scanner.getAttributes() == null) {
+            scanner.setAttributes(new HashMap<String, byte[]>());
+        }
+        scanner.getAttributes().put(key, value);
     }
 
     /**

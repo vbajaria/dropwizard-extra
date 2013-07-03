@@ -2,9 +2,7 @@ package com.datasift.dropwizard.hbase.scanner;
 
 import com.datasift.dropwizard.hbase.BoundedHBaseClient;
 import com.datasift.dropwizard.hbase.util.PermitReleasingCallback;
-import com.google.common.base.Charsets;
 import com.stumbleupon.async.Deferred;
-import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.hbase.async.ScanFilter;
 
@@ -389,6 +387,18 @@ public class BoundedRowScanner implements RowScanner {
      */
     public RowScanner setAttributes(Map<String, String> attributes) {
         scanner.setAttributes(attributes);
+        return this;
+    }
+
+    @Override
+    public RowScanner addAttribute(String key, String value) {
+        scanner.addAttribute(key, value);
+        return this;
+    }
+
+    @Override
+    public RowScanner addAttribute(String key, byte[] value) {
+        scanner.addAttribute(key, value);
         return this;
     }
 
